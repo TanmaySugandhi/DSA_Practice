@@ -10,20 +10,22 @@ class Solution {
             "tuv",  // 8
             "wxyz"  // 9
     };
-    private void backtrack(String digits, int index, String current_combination){
-        if(index == digits.length()){
-            result.add(current_combination);
+    private void backtrack(String digits, int index, StringBuilder current) {
+        if(index == digits.length()) {
+            result.add(current.toString());
             return;
         }
-        char digit = digits.charAt(index);
-        String letters = digitToLetters[digit - '2'];
-        for (char letter : letters.toCharArray())
-            backtrack(digits, index + 1, current_combination + letter);
+        String letters = digitToLetters[digits.charAt(index) - '2'];
+        for(char letter : letters.toCharArray()) {
+            current.append(letter);
+            backtrack(digits, index + 1, current);
+            current.deleteCharAt(current.length() - 1);
+        }
     }
     public List<String> letterCombinations(String digits) {
         if(digits.length() == 0 )
             return result;
-        backtrack(digits, 0, "");
+        backtrack(digits, 0, new StringBuilder());
         return result;       
     }
 }
